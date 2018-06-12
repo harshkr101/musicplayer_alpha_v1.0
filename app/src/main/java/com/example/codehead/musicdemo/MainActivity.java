@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements MediaPlayerControl {
     private boolean musicBound=false;
 
     //controller
-    private com.example.codehead.musicdemo.MusicController controller;
+    private MusicController controller;
 
     //activity and playback pause flags
     private boolean paused=false, playbackPaused=false;
@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements MediaPlayerControl {
         setContentView(R.layout.activity_main);
 
         //retrieve list view
-        songView = (ListView)findViewById(R.id.slist);
+        songView = findViewById(R.id.slist);
         //instantiate list
         songList = new ArrayList<>();
         //get songs from device
@@ -154,6 +154,7 @@ public class MainActivity extends Activity implements MediaPlayerControl {
             }
             while (musicCursor.moveToNext());
         }
+        //musicCursor.close();
     }
 
     @Override
@@ -199,6 +200,7 @@ public class MainActivity extends Activity implements MediaPlayerControl {
     public boolean isPlaying() {
         if(musicSrv!=null && musicBound)
             return musicSrv.isPng();
+
         return false;
     }
 
@@ -257,6 +259,9 @@ public class MainActivity extends Activity implements MediaPlayerControl {
         controller.show(0);
     }
 
+
+
+
     @Override
     protected void onPause(){
         super.onPause();
@@ -285,4 +290,11 @@ public class MainActivity extends Activity implements MediaPlayerControl {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i=new Intent(getBaseContext(),Ui.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        super.onBackPressed();
+    }
 }

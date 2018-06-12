@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class ui extends AppCompatActivity{
+public class Ui extends AppCompatActivity{
 
 Button b1;
     @Override
@@ -17,17 +17,13 @@ Button b1;
         b1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ui.this,MainActivity.class);
+                Intent intent=new Intent(Ui.this,MainActivity.class);
                 startActivity(intent);
             }
 
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 
 
 
