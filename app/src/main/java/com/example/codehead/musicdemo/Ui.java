@@ -15,7 +15,8 @@ import android.widget.Button;
 public class Ui extends AppCompatActivity{
 
     private static final int MY_PERMISSIONS_REQUEST = 1;
-    private Button b1;
+    private Button mSongButton;
+    private Button mArtistButton;
 
 
 
@@ -24,8 +25,9 @@ public class Ui extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ui);
         requestPermission();
-        b1=findViewById(R.id.b12);
-        b1.setOnClickListener(new View.OnClickListener(){
+        mSongButton=findViewById(R.id.song_button);
+        mArtistButton=findViewById(R.id.artist_button);
+        mSongButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Ui.this,MainActivity.class);
@@ -33,6 +35,14 @@ public class Ui extends AppCompatActivity{
             }
 
         });
+        mArtistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Ui.this,Artists.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void requestPermission(){

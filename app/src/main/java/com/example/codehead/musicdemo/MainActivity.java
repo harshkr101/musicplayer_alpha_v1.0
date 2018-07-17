@@ -1,7 +1,6 @@
 package com.example.codehead.musicdemo;
 
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,19 +10,19 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.MediaController.MediaPlayerControl;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 
-public class MainActivity extends Activity implements MediaPlayerControl {
+public class MainActivity extends AppCompatActivity implements MediaPlayerControl {
 
     //song list variables
     private ArrayList<Song> songList;
@@ -45,6 +44,7 @@ public class MainActivity extends Activity implements MediaPlayerControl {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //retrieve list view
         songView = findViewById(R.id.slist);
@@ -129,7 +129,6 @@ public class MainActivity extends Activity implements MediaPlayerControl {
         }
         return super.onOptionsItemSelected(item);
     }
-
     //method to retrieve song info from device
     public void getSongList(){
         //query external audio
