@@ -33,6 +33,8 @@ public class MusicService extends Service implements
     private final IBinder musicBind = new MusicBinder();
     //title of current song
     private String songTitle="";
+    //artist of current Song
+    private String songArtist="";
     //notification id
     private static final int NOTIFY_ID=1;
     //shuffle flag and random
@@ -97,6 +99,8 @@ public class MusicService extends Service implements
         Song playSong = songs.get(songPosn);
         //get title
         songTitle=playSong.getTitle();
+        //get Artist
+        songArtist=playSong.getArtist();
         //get id
         long currSong = playSong.getID();
         //set uri
@@ -139,7 +143,7 @@ public class MusicService extends Service implements
         //start playback
         mp.start();
         //notification
-        Intent notIntent = new Intent(this, MainActivity.class);
+        Intent notIntent = new Intent(this, SongActivity.class);
         notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendInt = PendingIntent.getActivity(this, 0,
                 notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -152,6 +156,7 @@ public class MusicService extends Service implements
                 .setOngoing(true)
                 .setContentTitle("Playing")
                 .setContentText(songTitle);
+
         Notification not = builder.build();
         startForeground(NOTIFY_ID, not);
     }

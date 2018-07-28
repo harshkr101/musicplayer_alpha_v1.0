@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class MainActivity extends AppCompatActivity implements MediaPlayerControl {
+public class SongActivity extends AppCompatActivity implements MediaPlayerControl {
 
     //song list variables
     private ArrayList<Song> songList;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.song_activity);
 
 
         //retrieve list view
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
         }
         return super.onOptionsItemSelected(item);
     }
+
     //method to retrieve song info from device
     public void getSongList(){
         //query external audio
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
             }
             while (musicCursor.moveToNext());
         }
-        //musicCursor.close();
+        musicCursor.close();
     }
 
     @Override
@@ -258,9 +259,6 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
         controller.show(0);
     }
 
-
-
-
     @Override
     protected void onPause(){
         super.onPause();
@@ -291,8 +289,8 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
 
     @Override
     public void onBackPressed() {
-        Intent i=new Intent(getBaseContext(),Ui.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent i=new Intent(getBaseContext(),LauncherActivity.class);
+       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
         super.onBackPressed();
     }

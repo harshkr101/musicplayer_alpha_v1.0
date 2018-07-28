@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back2"
-    tools:context=".MainActivity"
-    >
+    android:id="@+id/artistview"
+    tools:context=".SongActivity">
 
     <ListView
         android:id="@+id/artist_list"
