@@ -87,8 +87,9 @@ public class LauncherActivity extends AppCompatActivity{
         else if(time1 > 19) {
             dark();
         }
-        else
+        else{
             dark();
+        }
     }
 
 //request permission to read storage
@@ -137,29 +138,21 @@ public class LauncherActivity extends AppCompatActivity{
         }
     }
 
-    //when back button button is pressed show a warning
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
-                .setMessage("Are you sure you want to exit?")
-                .setNegativeButton(android.R.string.no, null)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        finish();
-                    }
-                }).create().show();
+       super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+       /* Intent intent = new Intent("finish_activity");
+        sendBroadcast(intent);
+        finish();*/
     }
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if ((keyCode == KeyEvent.KEYCODE_BACK))
-        {
-            finish();
-        }
-        return super.onKeyDown(keyCode, event);
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
 

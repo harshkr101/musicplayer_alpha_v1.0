@@ -11,6 +11,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
@@ -142,11 +143,21 @@ public class MusicService extends Service implements
     public void onPrepared(MediaPlayer mp) {
         //start playback
         mp.start();
-        //notification
+
+        //build notification
+       // buildNotification();
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+        startService(serviceIntent);
+    }
+
+  /*  private void buildNotification(){
         Intent notIntent = new Intent(this, SongActivity.class);
         notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendInt = PendingIntent.getActivity(this, 0,
                 notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
 
         Notification.Builder builder = new Notification.Builder(this);
 
@@ -155,11 +166,13 @@ public class MusicService extends Service implements
                 .setTicker(songTitle)
                 .setOngoing(true)
                 .setContentTitle("Playing")
-                .setContentText(songTitle);
+                .setContentText("Song: "+songTitle)
+                .setContentText("Artist: "+songArtist);
+
 
         Notification not = builder.build();
         startForeground(NOTIFY_ID, not);
-    }
+    }*/
 
     //playback methods
     public int getPosn(){
@@ -204,7 +217,8 @@ public class MusicService extends Service implements
         }
         else{
             songPosn++;
-            if(songPosn>=songs.size()) songPosn=0;
+            if(songPosn>=songs.size())
+                songPosn=0;
         }
         playSong();
     }
@@ -216,8 +230,11 @@ public class MusicService extends Service implements
 
     //toggle shuffle
     public void setShuffle(){
-        if(shuffle) shuffle=false;
-        else shuffle=true;
+        if(shuffle){
+            shuffle=false;}
+         else{
+             shuffle=true;
+        }
     }
 
 }

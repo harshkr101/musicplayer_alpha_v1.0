@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <service android:name="com.example.codehead.musicdemo.MusicService" />
+        <service android:name="com.example.codehead.musicdemo.NotificationService" />
     </application>
 
 </manifest>
