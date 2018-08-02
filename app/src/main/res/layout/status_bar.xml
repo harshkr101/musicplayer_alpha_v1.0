@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
@@ -8,7 +9,8 @@
         android:id="@+id/status_bar_album_art"
         android:layout_width="@dimen/status_bar_album_art"
         android:layout_height="@dimen/status_bar_album_art"
-        android:gravity="center" />
+        android:gravity="center"
+        android:contentDescription="album art" />
 
     <ImageView
         android:id="@+id/status_bar_icon"
@@ -17,7 +19,8 @@
         android:background="@drawable/status_bg"
         android:scaleType="center"
         android:src="@drawable/ic_launcher_foreground"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="status bar icon" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -25,7 +28,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/status_bar_button_info_container_padding_left" >
+        android:paddingStart="@dimen/status_bar_button_info_container_padding_left" >
 
         <TextView
             android:id="@+id/status_bar_track_name"
@@ -59,6 +62,7 @@
         android:id="@+id/status_bar_collapse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/notification_collapse" />
+        android:src="@drawable/notification_collapse"
+        android:contentDescription="collapse" />
 
 </LinearLayout>

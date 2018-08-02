@@ -16,7 +16,7 @@ public class NotificationService extends Service{
 
     private Notification status;
     private final String LOG_TAG = "NotificationService";
-
+    MusicService obj=new MusicService();
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -31,18 +31,18 @@ public class NotificationService extends Service{
         if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
             showNotification();
             Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
-
         } else if (intent.getAction().equals(Constants.ACTION.PREV_ACTION)) {
             Toast.makeText(this, "Clicked Previous", Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "Clicked Previous");
+
         } else if (intent.getAction().equals(Constants.ACTION.PLAY_ACTION)) {
             Toast.makeText(this, "Clicked Play", Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "Clicked Play");
         } else if (intent.getAction().equals(Constants.ACTION.NEXT_ACTION)) {
             Toast.makeText(this, "Clicked Next", Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "Clicked Next");
-        } else if (intent.getAction().equals(
-                Constants.ACTION.STOPFOREGROUND_ACTION)) {
+
+        } else if (intent.getAction().equals(Constants.ACTION.STOPFOREGROUND_ACTION)) {
             Log.i(LOG_TAG, "Received Stop Foreground Intent");
             Toast.makeText(this, "Service Stoped", Toast.LENGTH_SHORT).show();
             stopForeground(true);
@@ -107,13 +107,16 @@ public class NotificationService extends Service{
         bigViews.setImageViewResource(R.id.status_bar_play,
                 R.drawable.pause_notification);
 
-        views.setTextViewText(R.id.status_bar_track_name, "Song Title");
-        bigViews.setTextViewText(R.id.status_bar_track_name, "Song Title");
+        String songTitle=obj.getSongTitle();
+        String songArtist=obj.getSongArtist();
 
-        views.setTextViewText(R.id.status_bar_artist_name, "Artist Name");
-        bigViews.setTextViewText(R.id.status_bar_artist_name, "Artist Name");
+        views.setTextViewText(R.id.status_bar_track_name, songTitle);
+        bigViews.setTextViewText(R.id.status_bar_track_name, songTitle);
 
-        bigViews.setTextViewText(R.id.status_bar_album_name, "Album Name");
+        views.setTextViewText(R.id.status_bar_artist_name, songArtist);
+        bigViews.setTextViewText(R.id.status_bar_artist_name, songArtist);
+
+        //bigViews.setTextViewText(R.id.status_bar_album_name, "Album Name");
 
         status = new Notification.Builder(this).build();
         status.contentView = views;

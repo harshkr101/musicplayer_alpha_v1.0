@@ -39,7 +39,8 @@
             android:layout_height="@dimen/play_controls_notification"
             android:src="@drawable/play_notification"
             android:scaleType="fitCenter"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:contentDescription="play" />
         <ImageButton android:id="@+id/status_bar_next"
             android:background="?android:selectableItemBackground"
             android:padding="10.0dip"
@@ -47,15 +48,17 @@
             android:layout_height="@dimen/play_controls_notification"
             android:src="@drawable/nextsong_notification"
             android:scaleType="fitCenter"
-            android:layout_weight="1.0" />
+            android:layout_weight="1.0"
+            android:contentDescription="next song" />
     </LinearLayout>
     <ImageView
         android:background="?android:dividerHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="1.0px"
-        android:layout_toRightOf="@id/status_bar_album_art"
+        android:layout_toEndOf="@id/status_bar_album_art"
         android:layout_above="@+id/buttons"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentEnd="true"
+        android:contentDescription="layout" />
     <ImageButton
         android:id="@id/status_bar_collapse"
         android:background="?android:selectableItemBackground"
@@ -64,7 +67,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/notification_collapse"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:contentDescription="collapse" />
     <LinearLayout
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
@@ -78,7 +82,7 @@
         android:layout_alignParentTop="true">
         <TextView
             android:ellipsize="marquee"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:id="@+id/status_bar_track_name"
             android:focusable="true"
             android:fadingEdge="horizontal"
@@ -88,7 +92,7 @@
             />
         <TextView
             android:ellipsize="marquee"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:id="@+id/status_bar_artist_name"
             android:fadingEdge="horizontal"
             android:layout_width="fill_parent"
@@ -96,7 +100,7 @@
             android:singleLine="true" />
         <TextView
             android:ellipsize="marquee"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:id="@+id/status_bar_album_name"
             android:fadingEdge="horizontal"
             android:layout_width="fill_parent"

@@ -235,13 +235,14 @@ public class SongActivity extends AppCompatActivity implements MediaPlayerContro
                 playPrev();
             }
         });
+
         //set and show
         controller.setMediaPlayer(this);
         controller.setAnchorView(findViewById(R.id.slist));
         controller.setEnabled(true);
     }
 
-    private void playNext(){
+    protected void playNext(){
         musicService.playNext();
         if(playbackPaused){
             setController();
@@ -250,7 +251,7 @@ public class SongActivity extends AppCompatActivity implements MediaPlayerContro
         controller.show(0);
     }
 
-    private void playPrev(){
+    protected void playPrev(){
         musicService.playPrev();
         if(playbackPaused){
             setController();

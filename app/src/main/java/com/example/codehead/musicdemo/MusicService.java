@@ -66,6 +66,10 @@ public class MusicService extends Service implements
         player.setOnErrorListener(this);
     }
 
+    //getter methods for song and artist
+    public String getSongArtist() { return songArtist; }
+    public String getSongTitle() { return songTitle; }
+
     //pass song list
     public void setList(ArrayList<Song> theSongs){
         songs=theSongs;
