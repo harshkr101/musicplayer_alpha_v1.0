@@ -5,10 +5,13 @@
     <ImageView
         android:id="@+id/status_bar_album_art"
         android:layout_width="@dimen/notification_expanded_height"
-        android:layout_height="@dimen/notification_expanded_height"
-        android:scaleType="centerCrop"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"/>
+        android:layout_marginBottom="0dp"
+        android:contentDescription="album_art"
+        android:scaleType="centerCrop"
+        android:src="@drawable/album" />
 
     <LinearLayout
         android:gravity="center_vertical"
@@ -53,6 +56,7 @@
     </LinearLayout>
     <ImageView
         android:background="?android:dividerHorizontal"
+        android:src="@drawable/album"
         android:layout_width="wrap_content"
         android:layout_height="1.0px"
         android:layout_toEndOf="@id/status_bar_album_art"
@@ -60,7 +64,7 @@
         android:layout_alignParentEnd="true"
         android:contentDescription="layout" />
     <ImageButton
-        android:id="@id/status_bar_collapse"
+        android:id="@+id/status_bar_collapse"
         android:background="?android:selectableItemBackground"
         android:padding="8.0dip"
         android:layout_width="wrap_content"
@@ -88,23 +92,19 @@
             android:fadingEdge="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            />
+            android:hint="@string/song_name"
+            android:paddingBottom="16sp"
+            android:singleLine="true" />
         <TextView
             android:ellipsize="marquee"
+            android:hint="@string/song_artist"
             android:layout_gravity="start"
             android:id="@+id/status_bar_artist_name"
             android:fadingEdge="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="16sp"
             android:singleLine="true" />
-        <TextView
-            android:ellipsize="marquee"
-            android:layout_gravity="start"
-            android:id="@+id/status_bar_album_name"
-            android:fadingEdge="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
+
     </LinearLayout>
 </RelativeLayout>

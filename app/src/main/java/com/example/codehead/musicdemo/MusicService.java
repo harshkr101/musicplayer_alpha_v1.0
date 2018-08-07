@@ -17,11 +17,11 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.Toast;
 
 
-
-public class MusicService extends Service implements
-        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
+public class MusicService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnCompletionListener {
 
     //media player
@@ -41,6 +41,11 @@ public class MusicService extends Service implements
     //shuffle flag and random
     private boolean shuffle=false;
     private Random rand;
+
+    //notification stuff
+    private RemoteViews bigViews;
+    private static final String TAG = "NotificationService";
+    private boolean isPlaying =true;
 
     public void onCreate(){
         //create the service
@@ -67,8 +72,12 @@ public class MusicService extends Service implements
     }
 
     //getter methods for song and artist
-    public String getSongArtist() { return songArtist; }
-    public String getSongTitle() { return songTitle; }
+    protected String getSongArtist() {
+        return songArtist;
+    }
+    protected String getSongTitle() {
+        return songTitle;
+    }
 
     //pass song list
     public void setList(ArrayList<Song> theSongs){
@@ -109,9 +118,7 @@ public class MusicService extends Service implements
         //get id
         long currSong = playSong.getID();
         //set uri
-        Uri trackUri = ContentUris.withAppendedId(
-                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                currSong);
+        Uri trackUri = ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currSong);
         //set the data source
         try{
             player.setDataSource(getApplicationContext(), trackUri);
@@ -147,36 +154,96 @@ public class MusicService extends Service implements
     public void onPrepared(MediaPlayer mp) {
         //start playback
         mp.start();
-
         //build notification
-       // buildNotification();
-        Intent serviceIntent = new Intent(this, NotificationService.class);
+        Intent serviceIntent = new Intent(this, MusicService.class);
         serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
         startService(serviceIntent);
     }
 
-  /*  private void buildNotification(){
-        Intent notIntent = new Intent(this, SongActivity.class);
-        notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendInt = PendingIntent.getActivity(this, 0,
-                notIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        String action=intent.getAction();
+        if(action!=null){
+        switch (action) {
+            case Constants.ACTION.STARTFOREGROUND_ACTION:
+                showNotification();
+                break;
 
+            case Constants.ACTION.PREV_ACTION:
+                    Log.i(TAG, "Clicked Previous");
+                    playPrev();
+                break;
 
-        Notification.Builder builder = new Notification.Builder(this);
+            case Constants.ACTION.PLAY_ACTION:
+                Log.i(TAG, "Clicked Play");
+                if (isPlaying) {
+                    pausePlayer();
+                    bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.play_notification);
+                    isPlaying = false;
+                } else {
+                    go();
+                    bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.pause_notification);
+                    isPlaying = true;
+                }
+                break;
+            case Constants.ACTION.NEXT_ACTION:
+                playNext();
+                Log.i(TAG, "Clicked Next");
+                break;
 
-        builder.setContentIntent(pendInt)
-                .setSmallIcon(R.drawable.play)
-                .setTicker(songTitle)
-                .setOngoing(true)
-                .setContentTitle("Playing")
-                .setContentText("Song: "+songTitle)
-                .setContentText("Artist: "+songArtist);
+            case Constants.ACTION.STOPFOREGROUND_ACTION:
+                Log.i(TAG, "Received Stop Foreground Intent");
+                stopForeground(true);
+                stopSelf();
+                break;
+        }}
+        return START_STICKY;
+    }
+  private void showNotification() {
+    // Using RemoteViews to bind custom layouts into Notification
+      bigViews = new RemoteViews(getPackageName(), R.layout.status_bar_expanded);
 
+      //intents for notification
+      Intent notificationIntent = new Intent(this, SongActivity.class);
+      notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
+      notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+      PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        Notification not = builder.build();
-        startForeground(NOTIFY_ID, not);
-    }*/
+      Intent previousIntent = new Intent(this, MusicService.class);
+      previousIntent.setAction(Constants.ACTION.PREV_ACTION);
+      PendingIntent ppreviousIntent = PendingIntent.getService(this, 0, previousIntent, 0);
+
+      Intent playIntent = new Intent(this, MusicService.class);
+      playIntent.setAction(Constants.ACTION.PLAY_ACTION);
+      PendingIntent pplayIntent = PendingIntent.getService(this, 0, playIntent, 0);
+
+      Intent nextIntent = new Intent(this, MusicService.class);
+      nextIntent.setAction(Constants.ACTION.NEXT_ACTION);
+      PendingIntent pnextIntent = PendingIntent.getService(this, 0, nextIntent, 0);
+
+      Intent closeIntent = new Intent(this, MusicService.class);
+      closeIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
+      PendingIntent pcloseIntent = PendingIntent.getService(this, 0, closeIntent, 0);
+
+      bigViews.setOnClickPendingIntent(R.id.status_bar_play, pplayIntent);
+      bigViews.setOnClickPendingIntent(R.id.status_bar_next, pnextIntent);
+      bigViews.setOnClickPendingIntent(R.id.status_bar_prev, ppreviousIntent);
+      bigViews.setOnClickPendingIntent(R.id.status_bar_collapse, pcloseIntent);
+      bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.pause_notification);
+
+        //set current song and artist name
+      bigViews.setTextViewText(R.id.status_bar_track_name, songTitle);
+      bigViews.setTextViewText(R.id.status_bar_artist_name, songArtist);
+
+      //build notification
+      Notification notification = new Notification.Builder(this).build();
+      notification.bigContentView = bigViews;
+      notification.flags = Notification.FLAG_ONGOING_EVENT;
+      notification.icon = R.drawable.ic_launcher_foreground;
+      notification.contentIntent = pendingIntent;
+      startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE, notification);
+  }
 
     //playback methods
     public int getPosn(){
