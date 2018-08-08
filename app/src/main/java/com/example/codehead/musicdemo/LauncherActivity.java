@@ -145,9 +145,6 @@ public class LauncherActivity extends AppCompatActivity{
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
-       /* Intent intent = new Intent("finish_activity");
-        sendBroadcast(intent);
-        finish();*/
     }
 
     @Override

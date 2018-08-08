@@ -13,9 +13,7 @@ public class MusicController extends MediaController {
         this.context = context;
     }
 
-
     public void hide(){}
-
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {

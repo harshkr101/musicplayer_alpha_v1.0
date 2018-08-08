@@ -221,7 +221,7 @@ public class SongActivity extends AppCompatActivity implements MediaPlayerContro
     }
 
     //set the controller up
-    private void setController(){
+    protected void setController(){
         controller = new MusicController(this);
         //set previous and next button listeners
         controller.setPrevNextListeners(new View.OnClickListener() {

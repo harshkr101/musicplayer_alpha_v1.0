@@ -41,11 +41,9 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     //shuffle flag and random
     private boolean shuffle=false;
     private Random rand;
-
     //notification stuff
     private RemoteViews bigViews;
     private static final String TAG = "NotificationService";
-    private boolean isPlaying =true;
 
     public void onCreate(){
         //create the service
@@ -172,21 +170,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
 
             case Constants.ACTION.PREV_ACTION:
                     Log.i(TAG, "Clicked Previous");
-                    playPrev();
+                   playPrev();
                 break;
 
             case Constants.ACTION.PLAY_ACTION:
                 Log.i(TAG, "Clicked Play");
-                if (isPlaying) {
+                if (isPng()) {
                     pausePlayer();
                     bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.play_notification);
-                    isPlaying = false;
-                } else {
+                }else {
                     go();
                     bigViews.setImageViewResource(R.id.status_bar_play, R.drawable.pause_notification);
-                    isPlaying = true;
                 }
                 break;
+
             case Constants.ACTION.NEXT_ACTION:
                 playNext();
                 Log.i(TAG, "Clicked Next");
@@ -196,6 +193,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
                 Log.i(TAG, "Received Stop Foreground Intent");
                 stopForeground(true);
                 stopSelf();
+                System.exit(0);
                 break;
         }}
         return START_STICKY;
