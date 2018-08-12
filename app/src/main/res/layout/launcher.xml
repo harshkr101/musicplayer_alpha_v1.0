@@ -22,7 +22,7 @@
         android:id="@+id/artist_button"
         android:layout_width="191.31dp"
         android:layout_height="111.16dp"
-      android:layout_below="@+id/song_button"
+        android:layout_below="@+id/song_button"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="129dp"
         android:layout_marginTop="30dp"
